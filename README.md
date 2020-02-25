@@ -56,7 +56,45 @@ Note: You may have to use [Babel](https://babeljs.io) for ES6 transpilation.
 
 ### Simple usage
 
-(Coming soon)
+1. Import *page-chatter* functions
+
+        import { init, listen, talk, terminate } from 'page-chatter';
+
+2. Initialize *page-chatter*
+
+        init();
+
+    The above line should be placed in the parent-most app, the one that can host *page-chatter* in a way that it can be accessed from any other contained app participating in the chatter. 
+
+3. Listen to chatter from an app on the page
+
+        listen(
+            'sub-app1', // Own Id
+            ({ event, payLoad }) => {
+                // TODO: Consume messages
+            }
+        );
+
+    The first argument to `listen` needs to be an identifier for the current participating app and the second is a handler that receives messages with an `event` and a `payLoad` (if at all there's one).
+
+4. Talk to another app participating in the chatter
+
+        talk(
+            'sub-app2', // Id of the recipient
+            'get-sum', // Event identifier
+            {
+                num1: 2,
+                num2: 3
+            } // Message data
+        );
+
+    The first argument to `talk` is the identifier of the recipient, the second is the `event` for the recipient to know the nature of the message and the third is the `payLoad`.
+
+5. [Optional] Terminate the chatter
+
+        terminate();
+
+    A call to `terminate` releases *page-chatter*'s control from the page and returns everything back to normal.
 
 ## Demo
 
