@@ -4,8 +4,6 @@
         <title>page-chatter example</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0" />
-
-        <link type="text/css" rel="stylesheet" href="../build/styles/template-web-library.css" />
     </head>
     <body>
         <div id="page"></div>
@@ -19,9 +17,87 @@
              [
                  'pageChatter'
              ],
-             function (t) {
-                 
+             function (pc) {
+                 // Initialize handler
+                 pc.init();
+
+                 pc.listen(
+                     'p0',
+                     message => {
+                         switch (message.event) {
+                             case 'result':
+                             alert('The result is ' + message.payLoad);
+                             break;
+
+                             case 'date':
+                             alert('The date is ' + message.payLoad);
+                             break;
+
+                             default:
+                             // Ignore
+                         }
+                     }
+                 );
+
+                 pc.listen(
+                     'p1',
+                     message => {
+                         switch (message.event) {
+                             case 'add':
+                             pc.talk(
+                                 'p0',
+                                 'result',
+                                 message.payLoad.num1 + message.payLoad.num2
+                             );
+                             break;
+
+                             case 'subtract':
+                             pc.talk(
+                                 'p0',
+                                 'result',
+                                 message.payLoad.num1 - message.payLoad.num2
+                             );
+                             break;
+
+                             default:
+                             // Ignore
+                         }
+                     }
+                 );
+
+                 pc.listen(
+                     'p2',
+                     message => {
+                         switch (message.event) {
+                             case 'date':
+                             pc.talk(
+                                 'p0',
+                                 'date',
+                                 new Date().toDateString()
+                             );
+                             break;
+
+                             default:
+                             // Ignore
+                         }
+                     }
+                 );
+
+                 pc.talk(
+                     'p1',
+                     'add',
+                     {
+                         num1: 2,
+                         num2: 3
+                     }
+                 );
+
+                 pc.talk(
+                     'p2',
+                     'date'
+                 );
              }
+         )
         </script>
     </body>
 </html>
