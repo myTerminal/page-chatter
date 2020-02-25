@@ -12,6 +12,7 @@
 
         <script src="../build/scripts/page-chatter.js"></script>
 
+        <!-- Main app -->
         <script type="text/javascript">
          require(
              [
@@ -21,6 +22,7 @@
                  // Initialize handler
                  pc.init();
 
+                 // Identify self as 'p0' and define a handler to listen to messages
                  pc.listen(
                      'p0',
                      message => {
@@ -39,62 +41,101 @@
                      }
                  );
 
-                 pc.listen(
-                     'p1',
-                     message => {
-                         switch (message.event) {
-                             case 'add':
-                             pc.talk(
-                                 'p0',
-                                 'result',
-                                 message.payLoad.num1 + message.payLoad.num2
-                             );
-                             break;
+                 setTimeout(
+                     function () {
+                         // Talk to 'p1' and ask it to return the sum of two numbers
+                         pc.talk(
+                             'p1',
+                             'add',
+                             {
+                                 num1: 2,
+                                 num2: 3
+                             }
+                         );
 
-                             case 'subtract':
-                             pc.talk(
-                                 'p0',
-                                 'result',
-                                 message.payLoad.num1 - message.payLoad.num2
-                             );
-                             break;
-
-                             default:
-                             // Ignore
-                         }
-                     }
+                         // Talk to 'p2' and ask it for the current date as a string
+                         pc.talk(
+                             'p2',
+                             'date'
+                         );
+                     },
+                     1000
                  );
+             }
+         )
+        </script>
 
-                 pc.listen(
-                     'p2',
-                     message => {
-                         switch (message.event) {
-                             case 'date':
-                             pc.talk(
-                                 'p0',
-                                 'date',
-                                 new Date().toDateString()
-                             );
-                             break;
+        <!-- App 'p1' -->
+        <script type="text/javascript">
+         require(
+             [
+                 'pageChatter'
+             ],
+             function (pc) {
+                 setTimeout(
+                     function () {
+                         // Identify self as 'p1' and define a handler to listen to messages
+                         pc.listen(
+                             'p1',
+                             message => {
+                                 switch (message.event) {
+                                     case 'add':
+                                     pc.talk(
+                                         'p0',
+                                         'result',
+                                         message.payLoad.num1 + message.payLoad.num2
+                                     );
+                                     break;
 
-                             default:
-                             // Ignore
-                         }
-                     }
+                                     case 'subtract':
+                                     pc.talk(
+                                         'p0',
+                                         'result',
+                                         message.payLoad.num1 - message.payLoad.num2
+                                     );
+                                     break;
+
+                                     default:
+                                     // Ignore
+                                 }
+                             }
+                         );
+                     },
+                     500
                  );
+             }
+         )
+        </script>
 
-                 pc.talk(
-                     'p1',
-                     'add',
-                     {
-                         num1: 2,
-                         num2: 3
-                     }
-                 );
+        <!-- App 'p2' -->
+        <script type="text/javascript">
+         require(
+             [
+                 'pageChatter'
+             ],
+             function (pc) {
+                 setTimeout(
+                     function () {
+                         // Identify self as 'p2' and define a handler to listen to messages
+                         pc.listen(
+                             'p2',
+                             message => {
+                                 switch (message.event) {
+                                     case 'date':
+                                     pc.talk(
+                                         'p0',
+                                         'date',
+                                         new Date().toDateString()
+                                     );
+                                     break;
 
-                 pc.talk(
-                     'p2',
-                     'date'
+                                     default:
+                                     // Ignore
+                                 }
+                             }
+                         );
+                     },
+                     500
                  );
              }
          )
