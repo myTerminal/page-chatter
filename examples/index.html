@@ -14,6 +14,32 @@
 
         <!-- Main app -->
         <script type="text/javascript">
+         // The original message event
+         window.onmessage = message => {
+             console.log(
+                 'Message received in the original event handler',
+                 message
+             );
+         };
+
+         // Terminate the chatter
+         require(
+             [
+                 'pageChatter'
+             ],
+             function (pc) {
+                 setTimeout(
+                     function () {
+                         pc.terminate();
+                     },
+                     2000
+                 );
+             }
+         );
+        </script>
+
+        <!-- Main app -->
+        <script type="text/javascript">
          require(
              [
                  'pageChatter'
