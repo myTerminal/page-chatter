@@ -1,17 +1,20 @@
 /* global window */
 
-let handlers;
+let handlers,
+    originalHandler;
 
 // Function to initialize page-chatter
 export const init = () => {
     // Store the original event handler as one of the many
-    handlers = {
-        original: window.onmessage
-    };
+    originalHandler = window.onmessage;
+
+    // Initialize the handlers collection
+    handlers = {};
 
     // Set up a global event handler for all messages
-    window.onmessage = ({ data }) => {
+    window.onmessage = message => {
         // Extract information about the message
+        const { data } = message;
         const {
             to: recipient,
             event,
@@ -27,6 +30,11 @@ export const init = () => {
                 event,
                 payLoad
             });
+        }
+
+        // Also pass the message to the original event handler, if any
+        if (originalHandler) {
+            originalHandler(message);
         }
     };
 };
@@ -50,7 +58,7 @@ export const talk = (to, event, payLoad) => {
 // Function to terminate chatter
 export const terminate = () => {
     // Restore the original handler
-    window.onmessage = handlers.original;
+    window.onmessage = originalHandler;
 
     // Reset the handlers collection
     handlers = {};
