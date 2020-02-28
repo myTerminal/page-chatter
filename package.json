@@ -1,6 +1,6 @@
 {
   "name": "page-chatter",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "A simple library to facilitate chatter between web-apps running on the same page",
   "main": "build/scripts/page-chatter.js",
   "scripts": {

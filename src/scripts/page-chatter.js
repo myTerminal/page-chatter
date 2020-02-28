@@ -48,11 +48,14 @@ export const listen = (id, handler) => {
 // Function to talk to other participants
 export const talk = (to, event, payLoad) => {
     // Post message to the chatter
-    window.postMessage({
-        to,
-        event,
-        payLoad
-    });
+    window.postMessage(
+        {
+            to,
+            event,
+            payLoad
+        },
+        '*'
+    );
 };
 
 // Function to terminate chatter
