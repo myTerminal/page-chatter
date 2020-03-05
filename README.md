@@ -58,7 +58,7 @@ Note: You may have to use [Babel](https://babeljs.io) for ES6 transpilation.
 
 1. Import *page-chatter* functions
 
-        import { init, listen, talk, terminate } from 'page-chatter';
+        import { init, listen, talk, broadcast, terminate } from 'page-chatter';
 
 2. Initialize *page-chatter*
 
@@ -90,7 +90,18 @@ Note: You may have to use [Babel](https://babeljs.io) for ES6 transpilation.
 
     The first argument to `talk` is the identifier of the recipient, the second is the `event` for the recipient to know the nature of the message and the third is the `payLoad`.
 
-5. [Optional] Terminate the chatter
+5. Talk to all other participants at once
+
+        broadcast(
+            'he-is-here' // Event identifier
+            {
+                who: 'someone'
+            } // Message data
+        );
+
+    The arguments to `broadcast` are the same as `talk` but there is no `id` for the recipient, as all participants can listen.
+
+6. [Optional] Terminate the chatter
 
         terminate();
 

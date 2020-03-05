@@ -54,15 +54,19 @@
                      message => {
                          switch (message.event) {
                              case 'result':
-                             alert('The result is ' + message.payLoad);
-                             break;
+                                 alert('The result is ' + message.payLoad);
+                                 break;
 
                              case 'date':
-                             alert('The date is ' + message.payLoad);
-                             break;
+                                 alert('The date is ' + message.payLoad);
+                                 break;
 
                              default:
-                             // Ignore
+                                 // Ignore
+                                 console.log(
+                                     'Must be a broadcast message',
+                                     message
+                                 );
                          }
                      }
                  );
@@ -100,29 +104,36 @@
              function (pc) {
                  setTimeout(
                      function () {
+                         // Broadcast 'ready' event
+                         pc.broadcast('p1-ready');
+
                          // Identify self as 'p1' and define a handler to listen to messages
                          pc.listen(
                              'p1',
                              message => {
                                  switch (message.event) {
                                      case 'add':
-                                     pc.talk(
-                                         'p0',
-                                         'result',
-                                         message.payLoad.num1 + message.payLoad.num2
-                                     );
-                                     break;
+                                         pc.talk(
+                                             'p0',
+                                             'result',
+                                             message.payLoad.num1 + message.payLoad.num2
+                                         );
+                                         break;
 
                                      case 'subtract':
-                                     pc.talk(
-                                         'p0',
-                                         'result',
-                                         message.payLoad.num1 - message.payLoad.num2
-                                     );
-                                     break;
+                                         pc.talk(
+                                             'p0',
+                                             'result',
+                                             message.payLoad.num1 - message.payLoad.num2
+                                         );
+                                         break;
 
                                      default:
-                                     // Ignore
+                                         // Ignore
+                                         console.log(
+                                             'Must be a broadcast message',
+                                             message
+                                         )
                                  }
                              }
                          );
@@ -142,21 +153,28 @@
              function (pc) {
                  setTimeout(
                      function () {
+                         // Broadcast 'ready' event
+                         pc.broadcast('p2-ready');
+
                          // Identify self as 'p2' and define a handler to listen to messages
                          pc.listen(
                              'p2',
                              message => {
                                  switch (message.event) {
                                      case 'date':
-                                     pc.talk(
-                                         'p0',
-                                         'date',
-                                         new Date().toDateString()
-                                     );
-                                     break;
+                                         pc.talk(
+                                             'p0',
+                                             'date',
+                                             new Date().toDateString()
+                                         );
+                                         break;
 
                                      default:
-                                     // Ignore
+                                         // Ignore
+                                         console.log(
+                                             'Must be a broadcast message',
+                                             message
+                                         )
                                  }
                              }
                          );

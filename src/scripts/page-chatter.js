@@ -21,15 +21,29 @@ export const init = () => {
             payLoad
         } = data;
 
-        // Find the recipient's event handler
-        const handler = Object.keys(handlers).filter(k => k === recipient)[0];
+        // Pass as a message or a broadcast
+        if (recipient) {
+            // Find the recipient's event handler
+            const handler = Object.keys(handlers).filter(k => k === recipient)[0];
 
-        // Pass the message to the correct recipient, if any
-        if (handler) {
-            handlers[handler]({
-                event,
-                payLoad
-            });
+            // Pass the message to the correct recipient, if any
+            if (handler) {
+                handlers[handler]({
+                    event,
+                    payLoad
+                });
+            }
+        } else {
+            // Broadcast the message to all participants
+            Object.keys(handlers)
+                .forEach(
+                    k => {
+                        handlers[k]({
+                            event,
+                            payLoad
+                        });
+                    }
+                );
         }
 
         // Also pass the message to the original event handler, if any
@@ -51,6 +65,18 @@ export const talk = (to, event, payLoad) => {
     window.postMessage(
         {
             to,
+            event,
+            payLoad
+        },
+        '*'
+    );
+};
+
+// Function to broadcast message to all participants
+export const broadcast = (event, payLoad) => {
+    // Post message to the chatter
+    window.postMessage(
+        {
             event,
             payLoad
         },
