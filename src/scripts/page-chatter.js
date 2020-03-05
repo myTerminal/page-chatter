@@ -3,6 +3,19 @@
 let handlers,
     originalHandler;
 
+// Function to post message to a supplied set of handlers
+const postMessage = (targetHandlers, event, payLoad) => {
+    Object.keys(targetHandlers)
+        .forEach(
+            k => {
+                targetHandlers[k]({
+                    event,
+                    payLoad
+                });
+            }
+        );
+};
+
 // Function to initialize page-chatter
 export const init = () => {
     // Store the original event handler as one of the many
@@ -23,27 +36,16 @@ export const init = () => {
 
         // Pass as a message or a broadcast
         if (recipient) {
-            // Find the recipient's event handler
-            const handler = Object.keys(handlers).filter(k => k === recipient)[0];
+            // Find the recipient's identifier
+            const id = Object.keys(handlers).filter(k => k === recipient)[0];
 
             // Pass the message to the correct recipient, if any
-            if (handler) {
-                handlers[handler]({
-                    event,
-                    payLoad
-                });
+            if (id) {
+                postMessage([handlers[id]], event, payLoad);
             }
         } else {
             // Broadcast the message to all participants
-            Object.keys(handlers)
-                .forEach(
-                    k => {
-                        handlers[k]({
-                            event,
-                            payLoad
-                        });
-                    }
-                );
+            postMessage(handlers, event, payLoad);
         }
 
         // Also pass the message to the original event handler, if any
