@@ -16,6 +16,36 @@ const postMessage = (targetHandlers, event, payLoad) => {
         );
 };
 
+// Function to handle all messages
+const onMessage = message => {
+    // Extract information about the message
+    const { data } = message;
+    const {
+        to: recipient,
+        event,
+        payLoad
+    } = data;
+
+    // Pass as a message or a broadcast
+    if (recipient) {
+        // Find the recipient's identifier
+        const id = Object.keys(handlers).filter(k => k === recipient)[0];
+
+        // Pass the message to the correct recipient, if any
+        if (id) {
+            postMessage([handlers[id]], event, payLoad);
+        }
+    } else {
+        // Broadcast the message to all participants
+        postMessage(handlers, event, payLoad);
+    }
+
+    // Also pass the message to the original event handler, if any
+    if (originalHandler) {
+        originalHandler(message);
+    }
+};
+
 // Function to initialize page-chatter
 export const init = () => {
     // Store the original event handler as one of the many
@@ -25,34 +55,7 @@ export const init = () => {
     handlers = {};
 
     // Set up a global event handler for all messages
-    window.onmessage = message => {
-        // Extract information about the message
-        const { data } = message;
-        const {
-            to: recipient,
-            event,
-            payLoad
-        } = data;
-
-        // Pass as a message or a broadcast
-        if (recipient) {
-            // Find the recipient's identifier
-            const id = Object.keys(handlers).filter(k => k === recipient)[0];
-
-            // Pass the message to the correct recipient, if any
-            if (id) {
-                postMessage([handlers[id]], event, payLoad);
-            }
-        } else {
-            // Broadcast the message to all participants
-            postMessage(handlers, event, payLoad);
-        }
-
-        // Also pass the message to the original event handler, if any
-        if (originalHandler) {
-            originalHandler(message);
-        }
-    };
+    window.onmessage = onMessage;
 };
 
 // Function to subscribe to events for self
