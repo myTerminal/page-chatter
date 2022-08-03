@@ -1,15 +1,12 @@
 # page-chatter
 
 [![npm version](https://badge.fury.io/js/page-chatter.svg)](https://badge.fury.io/js/page-chatter)
-[![npm downloads](https://img.shields.io/npm/dt/page-chatter.svg)](https://www.npmjs.com/package/page-chatter)  
+[![npm downloads](https://img.shields.io/npm/dt/page-chatter.svg)](https://www.npmjs.com/package/page-chatter)
+[![License](https://img.shields.io/github/license/myTerminal/page-chatter.svg)](https://opensource.org/licenses/MIT)  
 [![Build Status](https://travis-ci.org/myTerminal/page-chatter.svg?branch=master)](https://travis-ci.org/myTerminal/page-chatter)
 [![Code Climate](https://codeclimate.com/github/myTerminal/page-chatter.png)](https://codeclimate.com/github/myTerminal/page-chatter)
 [![js-myterminal-style](https://img.shields.io/badge/code%20style-myterminal-blue.svg)](https://www.npmjs.com/package/eslint-config/myterminal)
 [![Coverage Status](https://img.shields.io/coveralls/myTerminal/page-chatter.svg)](https://coveralls.io/r/myTerminal/page-chatter?branch=master)  
-[![Dependency Status](https://david-dm.org/myTerminal/page-chatter.svg)](https://david-dm.org/myTerminal/page-chatter)
-[![devDependency Status](https://david-dm.org/myTerminal/page-chatter/dev-status.svg)](https://david-dm.org/myTerminal/page-chatter#info=devDependencies)
-[![peer Dependency Status](https://david-dm.org/myTerminal/page-chatter/peer-status.svg)](https://david-dm.org/myTerminal/page-chatter#info=peerDependencies)  
-[![License](https://img.shields.io/github/license/myTerminal/page-chatter.svg)](https://opensource.org/licenses/MIT)  
 [![NPM](https://nodei.co/npm/page-chatter.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/page-chatter/)
 
 A simple library to facilitate chatter between web-apps running on the same page
